@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config()
 
 const users = []
 
@@ -37,6 +40,11 @@ router.post('/users/login', async (req, res) => {
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       res.send('Login Successful.')
+
+      // jwt token
+      // const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+      // res.json(accessToken)
+
     } else {
       res.send('Invalid Password.')
     }
