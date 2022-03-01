@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
   firstName: {
@@ -21,11 +22,13 @@ const userSchema = mongoose.Schema({
     match: [/\S+@\S+\.\S+/, "is invalid"],
     index: true,
     lowercase: true,
+    unique: true,
   },
   salt: String,
   hash: String,
 });
 
+userSchema.plugin(uniqueValidator, {message: 'already exist.'})
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
